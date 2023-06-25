@@ -1,0 +1,1 @@
+A web application using Next.js and Express.js (TypeScript) for traveling and searching for vacation places.
