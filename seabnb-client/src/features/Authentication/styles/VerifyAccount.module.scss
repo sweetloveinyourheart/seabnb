@@ -1,0 +1,33 @@
+.verify-account {
+    padding: 56px 0;
+
+    h1,
+    p {
+        text-align: center;
+        margin: 24px 0;
+    }
+
+    p {
+        font-size: 13px;
+        color: #777;
+    }
+
+    .auth-code-box {
+        width: 412px;
+        margin: auto;
+
+        input {
+            width: 60px;
+            margin: 0 4px;
+            height: 60px;
+            border: 1px solid #777;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 24px;
+        }
+    }
+
+    .resend-btn {
+        text-align: center;
+    }
+}
