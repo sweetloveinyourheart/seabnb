@@ -8,6 +8,7 @@ router.get('/logged-in-devices', AuthGuard, AuthController.getLoggedInDevices)
 router.get('/refresh-token', AuthController.refreshToken)
 router.post('/sign-in', AuthController.login)
 router.post('/sign-up', AuthController.register)
+router.post('/resend-validation-code', AuthController.resendValidationCode)
 router.post('/verify-account', AuthGuard, AuthController.verifyAccount)
 router.delete('/sign-out', AuthGuard, AuthController.logout)
 

@@ -4,7 +4,7 @@ enum UserRoles {
     User = "user"
 }
 
-interface IProfile {
+export interface IProfile {
     username: string
     firstName: string
     lastName: string
@@ -13,7 +13,7 @@ interface IProfile {
     address?: string
 }
 
-interface IUser {
+export interface IUser {
     email: string
     password: string
     role: UserRoles

@@ -25,12 +25,12 @@ export function GlobalException(err: Exception, req: Request, res: Response, nex
         }
 
         if (err.validationErrors) {
-            const errors = err.validationErrors.map((e) => {
-                if (!e.constraints) 
-                    return { property: e.property, errors: [] };
+            const errors: string[] = err.validationErrors.map((e) => {
+                if (!e.constraints)
+                    return [`${e.property} not valid`];
 
-                return { property: e.property, errors: Object.entries(e.constraints).map(([key, value]) => value) }
-            })
+                return Object.entries(e.constraints).map(([key, value]) => value)
+            }).flat()
             return res.status(err.statusCode).json({ message: errors, statusCode: err.statusCode })
         }
 

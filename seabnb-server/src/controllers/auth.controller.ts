@@ -8,9 +8,9 @@ export async function login(request: Request, response: Response, next: NextFunc
     try {
         // Check for validation errors
         const deviceInfoDto = new DeviceInfoDto()
-        deviceInfoDto.isBrowser = request.body.deviceInfo.isBrowser
-        deviceInfoDto.isMobile = request.body.deviceInfo.isMobile
-        deviceInfoDto.userAgent = request.body.deviceInfo.userAgent
+        deviceInfoDto.isBrowser = request.body.deviceInfo?.isBrowser
+        deviceInfoDto.isMobile = request.body.deviceInfo?.isMobile
+        deviceInfoDto.userAgent = request.body.deviceInfo?.userAgent
 
         const deviceInfoErrors = await validate(deviceInfoDto);
 
@@ -19,8 +19,8 @@ export async function login(request: Request, response: Response, next: NextFunc
         }
 
         const loginDto = new LoginDto();
-        loginDto.email = request.body.email;
-        loginDto.password = request.body.password;
+        loginDto.email = request.body?.email;
+        loginDto.password = request.body?.password;
         loginDto.deviceInfo = deviceInfoDto
 
         const errors = await validate(loginDto);
@@ -40,22 +40,10 @@ export async function login(request: Request, response: Response, next: NextFunc
 export async function register(request: Request, response: Response, next: NextFunction) {
     try {
         // Check for validation errors
-        const registerDto = new RegisterDto();
-        registerDto.email = request.body.email;
-        registerDto.password = request.body.password;
-        registerDto.firstName = request.body.firstName;
-        registerDto.lastName = request.body.lastName;
-
-        const errors = await validate(registerDto);
-
-        if (errors.length) {
-            throw new Exception({ statusCode: 400, validationErrors: errors });
-        }
-
         const deviceInfoDto = new DeviceInfoDto()
-        deviceInfoDto.isBrowser = request.body.deviceInfo.isBrowser
-        deviceInfoDto.isMobile = request.body.deviceInfo.isMobile
-        deviceInfoDto.userAgent = request.body.deviceInfo.userAgent
+        deviceInfoDto.isBrowser = request.body.deviceInfo?.isBrowser
+        deviceInfoDto.isMobile = request.body.deviceInfo?.isMobile
+        deviceInfoDto.userAgent = request.body.deviceInfo?.userAgent
 
         const deviceInfoErrors = await validate(deviceInfoDto);
 
@@ -63,10 +51,37 @@ export async function register(request: Request, response: Response, next: NextF
             throw new Exception({ statusCode: 400, validationErrors: deviceInfoErrors });
         }
 
+        const registerDto = new RegisterDto();
+        registerDto.email = request.body.email;
+        registerDto.password = request.body.password;
+        registerDto.firstName = request.body.firstName;
+        registerDto.lastName = request.body.lastName;
+        registerDto.deviceInfo = deviceInfoDto
+
+        const errors = await validate(registerDto);
+
+        if (errors.length) {
+            throw new Exception({ statusCode: 400, validationErrors: errors });
+        }
+
         // Register new account
         const msg = await AuthServices.register(registerDto)
 
         return response.status(201).json(msg)
+    } catch (error) {
+        return next(error)
+    }
+}
+
+export async function resendValidationCode(request: Request, response: Response, next: NextFunction) {
+    try {
+        if (!request.user) {
+            throw new Exception({ statusCode: 401, message: 'Unauthorized' })
+        }
+
+        const result = await AuthServices.resendValidationCode(request.user)
+
+        return response.status(200).json(result)
     } catch (error) {
         return next(error)
     }

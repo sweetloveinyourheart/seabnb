@@ -40,7 +40,7 @@ export async function register(account: RegisterDto): Promise<Tokens> {
     // Send validation code to email
     const validationCode = generateValidationCode()
     const mail = {
-        subject: 'Validate your Protato account',
+        subject: 'Validate your Seabnb account',
         content: `Your validation code is ${validationCode}`
     }
 
@@ -79,6 +79,20 @@ export async function register(account: RegisterDto): Promise<Tokens> {
     await newLoginSession.save()
 
     return { accessToken, refreshToken }
+}
+
+export async function resendValidationCode(user: IRequestUser): Promise<Message> {
+    // Send validation code to email
+    const validationCode = generateValidationCode()
+    const mail = {
+        subject: 'Validate your Seabnb account',
+        content: `Your validation code is ${validationCode}`
+    }
+
+    await sendMail(user.email, mail)
+    await storeValidationCode(user.email, validationCode)
+
+    return { message: "New validation code was send to your email" }
 }
 
 export async function login(user: LoginDto): Promise<Tokens> {
