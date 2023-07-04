@@ -1,0 +1,66 @@
+.personal-info {
+    padding: 60px 0;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    h1 {
+        margin: 12px 0 32px 0;
+    }
+}
+
+.info-editor {
+    padding-top: 16px;
+    border-bottom: 1px solid #dcdcdc;
+
+    h5 {
+        font-weight: 400;
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    p {
+        color: #777;
+        margin-bottom: 16px;
+
+        span {
+            text-transform: lowercase;
+        }
+    }
+
+    .row-right {
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+            padding-right: 0;
+
+            span {
+                text-decoration: underline;
+                color: #222;
+            }
+        }
+    }
+
+    .editor {
+        input {
+            padding: 12px 24px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #dcdcdc;
+            margin-bottom: 16px;
+
+        }
+
+        button {
+            background-color: #222;
+            color: #fff;
+            margin-bottom: 16px;
+
+            &:hover {
+                background-color: #fff;
+                border: 1px solid #222;
+                color: #222;
+            }
+        }
+    }
+}

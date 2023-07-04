@@ -29,7 +29,7 @@ const VerifyAccount: FunctionComponent<VerifyAccountProps> = () => {
                 message.error(response.error)
             } else {
                 message.success("Your email has been verified !")
-                router.push("/profile")
+                router.push("/account-settings")
             }
 
             setVerifying(false)

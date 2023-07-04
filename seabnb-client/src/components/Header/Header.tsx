@@ -7,7 +7,8 @@ import styles from './Header.module.scss'
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { clearAuthState, openAuthModal } from "@/redux/slices/authSlice";
-import { removeRefreshToken } from "@/features/Authentication/utils/save-token";
+import { getRefreshToken, removeRefreshToken } from "@/features/Authentication/utils/save-token";
+import { signOut } from "@/features/Authentication/services/auth.service";
 
 interface AppHeaderProps { }
 
@@ -18,7 +19,11 @@ const AppHeader: FunctionComponent<AppHeaderProps> = () => {
 
     const onOpenAuthModal = (mode: 'login' | 'register') => dispatch(openAuthModal({ modalMode: mode }))
 
-    const logout = () => {
+    const logout = async () => {
+        const currentRefreshToken = getRefreshToken()
+        if(!currentRefreshToken) return;
+
+        await signOut(currentRefreshToken)
         removeRefreshToken()
         dispatch(clearAuthState())
     }
@@ -40,7 +45,7 @@ const AppHeader: FunctionComponent<AppHeaderProps> = () => {
         return [
             {
                 key: '3',
-                label: (<Link href={"/profile"}>Your profile</Link>),
+                label: (<Link href={"/account-settings"}>Account</Link>),
             },
             {
                 key: '4',

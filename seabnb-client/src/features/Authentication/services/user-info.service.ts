@@ -2,7 +2,7 @@ import { BASE_URL } from "@/common/configs/base-url"
 import { Response } from "@/common/types/response"
 import axios from "axios"
 
-interface IProfile {
+export interface IProfile {
     username: string
     firstName: string
     lastName: string

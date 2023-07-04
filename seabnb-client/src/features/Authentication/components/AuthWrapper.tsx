@@ -5,7 +5,7 @@ import Authentication from "./Auth";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getRefreshToken } from "../utils/save-token";
 import { refreshNewToken } from "../services/auth.service";
-import { clearAuthState, saveAccessToken, saveUser } from "@/redux/slices/authSlice";
+import { clearAuthState, saveAccessToken, saveUser, setLoading } from "@/redux/slices/authSlice";
 import { setDefaultAuthHeader } from "@/common/configs/axios";
 import { getUserInfo } from "../services/user-info.service";
 
@@ -27,6 +27,7 @@ const AuthWrapper: FunctionComponent<AuthWrapperProps> = ({ children }) => {
                 dispatch(saveAccessToken({ accessToken: data.accessToken }))
             } else {
                 dispatch(clearAuthState())
+                dispatch(setLoading(false))
             }
         }
     }
@@ -46,6 +47,8 @@ const AuthWrapper: FunctionComponent<AuthWrapperProps> = ({ children }) => {
 
                 const res = await getUserInfo()
                 dispatch(saveUser({ user: res.data }))
+                dispatch(setLoading(false))
+
             })()
         }
     }, [accessToken])

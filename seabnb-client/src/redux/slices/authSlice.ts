@@ -7,13 +7,15 @@ interface IAuthState {
   modalMode: 'login' | 'register'
   accessToken: string | null
   user: IUserInfo | null
+  loading: boolean
 }
 
 const initialState: IAuthState = {
   isAuthModalOpen: false,
   modalMode: 'login',
   accessToken: null,
-  user: null
+  user: null,
+  loading: true
 }
 
 export const counterSlice = createSlice({
@@ -35,6 +37,9 @@ export const counterSlice = createSlice({
     saveUser: (state, actions: PayloadAction<{ user: any }>) => {
       state.user = actions.payload.user
     },
+    setLoading: (state, actions: PayloadAction<boolean>) => {
+      state.loading = actions.payload
+    },
     clearAuthState: (state) => {
       state.isAuthModalOpen = false
       state.accessToken = null
@@ -44,6 +49,6 @@ export const counterSlice = createSlice({
   },
 })
 
-export const { openAuthModal, closeAuthModal, saveAccessToken, saveUser, clearAuthState } = counterSlice.actions
+export const { openAuthModal, closeAuthModal, setLoading, saveAccessToken, saveUser, clearAuthState } = counterSlice.actions
 
 export default counterSlice.reducer

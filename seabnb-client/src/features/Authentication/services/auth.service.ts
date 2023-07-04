@@ -74,3 +74,12 @@ export const refreshNewToken = async (token: string): Promise<Response<{ accessT
         return { data: null, error: error.response?.data?.message || `An error occurred: ${error.message}` }
     }
 }
+
+export const signOut = async (token: string): Promise<Response<{ accessToken: string }>> => {
+    try {
+        const { data } = await axios.delete(`${BASE_URL}/auth/sign-out?token=${token}`)
+        return { data, error: null }
+    } catch (error: any) {
+        return { data: null, error: error.response?.data?.message || `An error occurred: ${error.message}` }
+    }
+}
